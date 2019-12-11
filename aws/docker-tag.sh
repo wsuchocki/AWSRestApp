@@ -2,17 +2,16 @@
 
 `eval aws ecr get-login --no-include-email --region eu-central-1`
 
-: ${AWS_ACCOUNT?Need to set AWS_ACCOUNT environment variable}
-: ${ECR_REPOSITORY?Need to set ECR_REPOSITORY environment variable}
+AWS_ACCOUNT=621740939950
+ECR_REPOSITORY=621740939950.dkr.ecr.eu-central-1.amazonaws.com/witek-szkolenie
 
 DESTINATION_REPOSITORY_HOSTNAME="${AWS_ACCOUNT}.dkr.ecr.eu-central-1.amazonaws.com"
-IMAGE_TAG='zima'
+IMAGE_TAG='latest'
 
-SOURCE_IMAGE="${ECR_REPOSITORY}:${IMAGE_TAG}"
-DESTINATION_IMAGE="${DESTINATION_REPOSITORY_HOSTNAME}/${ECR_REPOSITORY}:${IMAGE_TAG}"
+docker build -t witek .
+docker tag witek:latest 621740939950.dkr.ecr.eu-central-1.amazonaws.com/witek-szkolenie:latest
+docker push 621740939950.dkr.ecr.eu-central-1.amazonaws.com/witek-szkolenie:latest
 
-docker tag ${SOURCE_IMAGE} ${DESTINATION_IMAGE}
-docker push ${DESTINATION_IMAGE}
 
 docker logout ${DESTINATION_REPOSITORY_HOSTNAME}
 
